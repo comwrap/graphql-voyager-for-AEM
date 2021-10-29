@@ -104,3 +104,6 @@ jobs:
       #       --request POST \
       #       --data '{"event_type": "fetch_latest_changes", "client_payload": { "site_template_version": "${{ steps.packageJson.outputs.VERSION }}" } }' \
       #       ${{ github.api_url }}/repos/adobe/aem-site-template-basic-theme-e2e/dispatches
+      - name: Deploy to maven central
+        id: deploy-to-maven-central
+        run: mvn deploy

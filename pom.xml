@@ -24,6 +24,7 @@
     <version>1.0.1</version>
     <name>GraphQL Voyager</name>
     <description>GraphQL Voyager for AEM</description>
+    <url>http://www.comwrap.com</url>
 
     <licenses>
         <license>
@@ -31,6 +32,21 @@
             <url>http://www.opensource.org/licenses/mit-license.php</url>
         </license>
     </licenses>
+
+    <developers>
+        <developer>
+            <name>Manuel Galle</name>
+            <email>mgalle@comwrap.com</email>
+            <organization>comwrap GmbH</organization>
+            <organizationUrl>http://www.comwrap.com</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com:comwrap/graphql-voyager-for-AEM.git</connection>
+        <developerConnection>scm:git:ssh://github.com:comwrap/graphql-voyager-for-AEM.git</developerConnection>
+        <url>https://github.com/comwrap/graphql-voyager-for-AEM/tree/main</url>
+    </scm>
 
     <modules>
         <module>all</module>
@@ -46,7 +62,16 @@
         <vault.user>admin</vault.user>
         <vault.password>admin</vault.password>
         <componentGroupName>GraphQL Voyager</componentGroupName>
+        <git.repository>cowmrap/graphql-voyager-for-AEM</git.repository>
     </properties>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub</name>
+            <url>https://maven.pkg.github.com/${git.repository}</url>
+        </repository>
+    </distributionManagement>
 
     <build>
         <pluginManagement>
