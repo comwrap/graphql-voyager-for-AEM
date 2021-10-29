@@ -54,12 +54,6 @@
                     <group>com.comwrap.public</group>
                     <name>graphql-voyager.ui.apps</name>
                     <packageType>application</packageType>
-                    <!--<repositoryStructurePackages>
-                        <repositoryStructurePackage>
-                            <groupId>com.comwrap.public</groupId>
-                            <artifactId>graphql-voyager.ui.apps.structure</artifactId>
-                        </repositoryStructurePackage>
-                    </repositoryStructurePackages>-->
                     <dependencies>
                     </dependencies>
                 </configuration>
@@ -105,30 +99,6 @@
     <!-- D E P E N D E N C I E S                                                -->
     <!-- ====================================================================== -->
     <dependencies>
-        <!--<dependency>
-            <groupId>com.comwrap.public</groupId>
-            <artifactId>graphql-voyager.core</artifactId>
-            <version>${project.version}</version>
-        </dependency>-->
-
-        <!--<dependency>
-            <groupId>com.comwrap.public</groupId>
-            <artifactId>graphql-voyager.ui.frontend</artifactId>
-            <version>${project.version}</version>
-            <type>zip</type>
-        </dependency>-->
-
-        <!--<dependency>
-            <groupId>com.comwrap.public</groupId>
-            <artifactId>graphql-voyager.ui.apps.structure</artifactId>
-            <version>${project.version}</version>
-            <type>zip</type>
-        </dependency>-->
-
-        <dependency>
-            <groupId>com.adobe.aem</groupId>
-            <artifactId>aem-sdk-api</artifactId>
-        </dependency>
 
         <!-- HTL dependencies needed for the HTL Maven Plugin source code generation -->
         <dependency>
