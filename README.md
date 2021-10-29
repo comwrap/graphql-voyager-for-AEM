@@ -15,7 +15,7 @@ It installs https://github.com/APIs-guru/graphql-voyager under /apps and adds a 
 Under AEM -> Assets you will get a new Icon "GraphQL Voyager". Click on that, select your endpoint in the dropdown and you will see your content fragment relationships.
 
 ## Demo
-https://jumpshare.com/v/tfzBvoXrrA17bUHaIKjV
+https://jmp.sh/XbUsMUV
 
 ## How to install
 **Localhost**: just upload via package manager http://localhost:4502/crx/packmgr/index.jsp
