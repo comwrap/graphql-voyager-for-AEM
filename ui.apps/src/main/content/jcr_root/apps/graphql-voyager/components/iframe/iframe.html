@@ -1,0 +1,64 @@
+<html>    
+    <body>
+
+
+	<!--
+     Adds a simple dropdown where all available GraphQL Endpoints can be selected. Is done based on /content/_cq_graphql/.-1.json
+    -->
+
+		<label for="iframe-source">Select the GraphQL Endpoint: </label>
+		<select name="iframe-source" id="iframe-source">
+
+        </select> 
+
+		<div>Endpoints can be edited <a href="/libs/cq/graphql/sites/admin/content/console.html"target="_blank">here</a>.</div>
+        <iframe id="voyagerIframe" style="width:100vw; height:calc(100vh - 60px);"></iframe>
+    </body>
+    <script>
+		//Code will pass the available endpoints from /content/_cq_graphql/.-1.json to GraphQL Voyager iFrame
+
+		let select = document.getElementById('iframe-source');
+   		function setIframeSrc( graphqlNode ) {
+       	let myIframe = document.getElementById("voyagerIframe");
+        let endpoint = "/apps/graphql-voyager/frame.html";
+        let secondParam = "xxx";
+        let endpointurl = "/content/_cq_graphql/" + graphqlNode + "/endpoint.json";
+        myIframe.src = endpoint + "?endpointurl=" + endpointurl + "&secondParam=" + secondParam;
+        }
+        select.addEventListener ("change", function () {
+            setIframeSrc(this.value);
+        });
+
+		// Code will fetch all possible endpoints. The function is a little hacky, but instead of building an OSGI Service that one was way easer.
+        fetch('/content/_cq_graphql/.-1.json')
+            .then(response => response.json())
+            .then(json => {
+            	let firstDropdownValue = false;
+                for (const [key, value] of Object.entries(json)) {
+                    let opt = document.createElement('option');
+
+                    if (json[key].hasOwnProperty("endpoint")) {
+                        opt.value = key;
+                       	opt.innerHTML = value.endpoint['jcr:title'] + " (" + key + ")";
+                        select.appendChild(opt);
+
+                        if (firstDropdownValue === false) {
+                            setIframeSrc(key);
+                            firstDropdownValue = true;
+                            document.getElementById("iframe-source").selectedIndex = 1;
+                       }
+
+                    }
+                }	
+
+
+			
+
+
+            })
+
+
+
+     </script>
+
+</html>

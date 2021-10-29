@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured"
+    jcr:title="GraphQL Voyager"
+    sling:resourceSuperType="granite/ui/components/shell/page"
+    sling:resourceType="/apps/graphql-voyager"
+    consoleId="graphql-voyager">
+    <content
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="granite/ui/components/coral/foundation/container">
+        <items jcr:primaryType="nt:unstructured">
+            <content
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="/apps/graphql-voyager/components/iframe"/>
+        </items>
+    </content>
+    <frame
+        jcr:primaryType="nt:unstructured"
+        jcr:title="GraphQL Voyager"
+        sling:resourceSuperType="/apps/graphql-voyager/components/page"
+        sling:resourceType="/apps/graphql-voyager/frame"/>
+    <components/>
+</jcr:root>
