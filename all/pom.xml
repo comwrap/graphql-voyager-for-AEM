@@ -22,7 +22,7 @@
     <!-- P A R E N T  P R O J E C T  D E S C R I P T I O N                      -->
     <!-- ====================================================================== -->
     <parent>
-        <groupId>com.comwrap.public</groupId>
+        <groupId>com.comwrap.public.aem</groupId>
         <artifactId>graphql-voyager</artifactId>
         <version>1.0.0</version>
         <relativePath>../pom.xml</relativePath>
@@ -49,13 +49,13 @@
                 <artifactId>filevault-package-maven-plugin</artifactId>
                 <extensions>true</extensions>
                 <configuration>
-                    <group>com.comwrap.public</group>
+                    <group>com.comwrap.public.aem</group>
                     <packageType>container</packageType>
                     <!-- skip sub package validation for now as some vendor packages like CIF apps will not pass -->
                     <skipSubPackageValidation>true</skipSubPackageValidation>
                     <embeddeds>
                         <embedded>
-                            <groupId>com.comwrap.public</groupId>
+                            <groupId>com.comwrap.public.aem</groupId>
                             <artifactId>graphql-voyager.ui.apps</artifactId>
                             <type>zip</type>
                             <target>/apps/graphql-voyager-packages/application/install</target>
@@ -137,7 +137,7 @@
     <!-- ====================================================================== -->
     <dependencies>
         <dependency>
-            <groupId>com.comwrap.public</groupId>
+            <groupId>com.comwrap.public.aem</groupId>
             <artifactId>graphql-voyager.ui.apps</artifactId>
             <version>${project.version}</version>
             <type>zip</type>
