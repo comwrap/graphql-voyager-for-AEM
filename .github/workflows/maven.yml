@@ -107,3 +107,5 @@ jobs:
       - name: Deploy to maven central
         id: deploy-to-maven-central
         run: mvn deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
