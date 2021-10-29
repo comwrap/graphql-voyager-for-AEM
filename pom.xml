@@ -71,7 +71,7 @@
         <repository>
             <id>github</id>
             <name>GitHub</name>
-            <url>https://maven.pkg.github.com/${git.repository}</url>
+            <url>https://maven.pkg.github.com/comwrap/graphql-voyager-for-aem</url>
         </repository>
     </distributionManagement>
 
