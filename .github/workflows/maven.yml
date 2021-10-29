@@ -39,7 +39,7 @@ jobs:
           git config user.name "GitHub Actions"
 
       - name: Get Version from pom
-        run: echo '::set-output name=BUILD_VERSION::$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)'
+        run: echo ::set-output name=BUILD_VERSION::$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
         id: pom-version
 
       - name: Check output
@@ -93,8 +93,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./all/target/graphql-voyager.all-1.0.0-SNAPSHOT.zip
-          asset_name: graphql-voyager.all-1.0.0-SNAPSHOT.zip
+          asset_path: ./ui.apps/target/graphql-voyager.ui.apps-1.0.0-SNAPSHOT.zip
+          asset_name: graphql-voyager.zip
           asset_content_type: application/zip
 
       # - name: Update Site Theme E2E Repo
