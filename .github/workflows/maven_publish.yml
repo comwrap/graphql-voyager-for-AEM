@@ -29,6 +29,11 @@ jobs:
           distribution: 'adopt'
           server-id: github
 
+      - name: Configure Git user
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions"
+
       - name: Deploy to maven central
         id: deploy-to-maven-central
         run: mvn -X --batch-mode deploy
