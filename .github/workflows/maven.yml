@@ -1,39 +1,106 @@
-# This workflow will build a Java project with Maven
-# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+# Creates a Site Template Release
 
-name: Maven CI
+name: Build and release Package
 
 on:
-  pull_request:
+  workflow_dispatch:
+    inputs:
+      semantic_version:
+        description: 'Semantic version (major | minor | patch)'
+        required: true
+        default: 'patch'
 
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        java: [8, 11]
-        profile: ['', '-Pclassic']
+  build_and_release:
+    name: Build and release
+    runs-on: ubuntu-latest
+
+    if: github.ref == 'refs/heads/main'
 
     steps:
-      # Check out Git repository
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-      # Set up environment with Java and Maven
-      - name: Setup JDK
-        uses: actions/setup-java@v1
-        with:
-          java-version: ${{ matrix.java }}
-
-      # Set up dependency cache
       - name: Cache local Maven repository
         uses: actions/cache@v2
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
-      # Build & Test
-      - name: Build & Test with Maven
-        run: mvn clean install ${{ matrix.profile }}
+          restore-keys: ${{ runner.os }}-maven-
+
+      - name: Set up Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+          server-id: github
+
+      - name: Configure Git user
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions"
+
+      - name: Get Version from pom
+        run: echo '::set-output name=BUILD_VERSION::$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)'
+        id: pom-version
+
+      - name: Check output
+        run: echo '${{steps.pom-version.outputs.BUILD_VERSION}}'
+
+      - name: Build Maven artifact
+        run: mvn clean install
+
+      # - name: Bump version and commit
+      #   run: |
+      #     git config --local user.email "${{ github.actor }}@users.noreply.github.com"
+      #     git config --local user.name "Release action on behalf of ${{ github.actor }}"
+      #     npm version ${{ github.event.inputs.semantic_version }} -m 'Release %s'
+      # - name: Push changes
+      #   uses: ad-m/github-push-action@master
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     branch: ${{ github.ref }}
+      #     tags: false
+
+      # - name: Build Site Template (using bumped version)
+      #   run: npm run build
+
+      # - name: Read package.json
+      #   id: package
+      #   uses: juliangruber/read-file-action@v1
+      #   with:
+      #     path: ./package.json
+
+      # - name: Extract name and version from package.json
+      #   id: packageJson
+      #   run: |
+      #     echo ::set-output name=NAME::$(echo '${{ steps.package.outputs.content }}' | jq -r '.name')
+      #     echo ::set-output name=VERSION::$(echo '${{ steps.package.outputs.content }}' | jq -r '.version')
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{steps.pom-version.outputs.*}}
+          release_name: ${{steps.pom-version.outputs.*}}
+          draft: false
+          prerelease: true
+
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./all/target/graphql-voyager.all-1.0.0-SNAPSHOT.zip
+          asset_name: graphql-voyager.all-1.0.0-SNAPSHOT.zip
+          asset_content_type: application/zip
+
+      # - name: Update Site Theme E2E Repo
+      #   run: |
+      #     curl -H "Accept: application/vnd.github.v3+json" \
+      #       -H "Authorization: token ${{ secrets.SITE_THEME_REPO_WRITE_TOKEN }}" \
+      #       --request POST \
+      #       --data '{"event_type": "fetch_latest_changes", "client_payload": { "site_template_version": "${{ steps.packageJson.outputs.VERSION }}" } }' \
+      #       ${{ github.api_url }}/repos/adobe/aem-site-template-basic-theme-e2e/dispatches
