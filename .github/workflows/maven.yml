@@ -39,7 +39,7 @@ jobs:
           git config user.name "GitHub Actions"
 
       - name: Get Version from pom
-        run: echo '::set-output name=BUILD_VERSION::$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+        run: echo '::set-output name=BUILD_VERSION::$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)'
         id: pom-version
       - name: Build Maven artifact
         run: mvn clean install
