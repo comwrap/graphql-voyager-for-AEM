@@ -20,19 +20,27 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up Java
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
-
       - name: Cache local Maven repository
         uses: actions/cache@v2
         with:
           path: ~/.m2/repository
-          key: voyager-cache
-          restore-keys: |
-            voyager-cache
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven-
 
+      - name: Set up Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+          server-id: github
+
+      - name: Configure Git user
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions"
+
+      - name: Get Version from pom
+        run: run: echo '::set-output name=BUILD_VERSION::$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+        id: pom-version
       - name: Build Maven artifact
         run: mvn clean install
 
@@ -69,8 +77,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v0.0.1-SNAPSHOT
-          release_name: SNAPSHOT-0.0.1
+          tag_name: ${{steps.pom-version.outputs.*}}
+          release_name: ${{steps.pom-version.outputs.*}}
           draft: false
           prerelease: true
 
