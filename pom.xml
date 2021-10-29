@@ -21,7 +21,7 @@
     <groupId>com.comwrap.public.aem</groupId>
     <artifactId>graphql-voyager</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <name>GraphQL Voyager</name>
     <description>GraphQL Voyager for AEM</description>
 
